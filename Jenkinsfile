@@ -64,17 +64,19 @@ pipeline {
                 stage("Test") {
                     steps {
                         gitlabCommitStatus(name: STAGE_NAME) {
-                            try {
-                                sh "mvn test"
-
-                            } finally {
-                                junit 'target/sunfire-reports/**/*.xml'
-                            }
+                            sh "mvn test"
                         }
                     }
                 }
 
             }
+        }
+    }
+
+    post {
+        always {
+            archiveArtifacts artifacts: 'target/**.jar', fingerprint: true
+            junit 'target/sunfire-reports/**/*.xml'
         }
     }
 }
