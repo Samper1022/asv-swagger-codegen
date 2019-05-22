@@ -1,21 +1,21 @@
 version: '3.7'
 
 services:
-  gitlab:
-    container_name: gitlab
-    image: 'gitlab/gitlab-ce:11.5.2-ce.0'
-    restart: always
-    environment:
-      GITLAB_OMNIBUS_CONFIG: |
-        external_url "http://localhost:8101"
-        # Add any other gitlab.rb configuration here, each on its own line
-    ports:
-    - "8101:8101"
-    - "8102:22"
-    volumes:
-    - gitlab-data-etc:/etc/gitlab
-    - gitlab-data-log:/var/log/gitlab
-    - gitlab-data-opt:/var/opt/gitlab
+#  gitlab:
+#    container_name: gitlab
+#    image: 'gitlab/gitlab-ce:11.5.2-ce.0'
+#    restart: always
+#    environment:
+#      GITLAB_OMNIBUS_CONFIG: |
+#        external_url "http://localhost:8101"
+#        # Add any other gitlab.rb configuration here, each on its own line
+#    ports:
+#    - "8101:8101"
+#    - "8102:22"
+#    volumes:
+#    - gitlab-data-etc:/etc/gitlab
+#    - gitlab-data-log:/var/log/gitlab
+#    - gitlab-data-opt:/var/opt/gitlab
 
 
   jenkins:
@@ -41,26 +41,26 @@ services:
     - sonarqube-extensions:/opt/sonarqube/extensions
     - sonarqube-bundled-plugins:/opt/sonarqube/lib/bundled-plugins
 
-  dockerregistry:
-    container_name: dockerregistry 
-    restart: always
-    image: registry:2.5.2
-    ports:
-    - "8107:5000"
-    volumes:
-    - dockerregistry-data:/var/lib/registry
-    - dockerregistry-certs:/certs
-    - dockerregistry-auth:/auth 
+#  dockerregistry:
+#    container_name: dockerregistry
+#    restart: always
+#    image: registry:2.5.2
+#    ports:
+#    - "8107:5000"
+#    volumes:
+#    - dockerregistry-data:/var/lib/registry
+#    - dockerregistry-certs:/certs
+#    - dockerregistry-auth:/auth
 
 volumes:
-  gogs-data:
-    name: gogs-data
-  dockerregistry-data: 
-    name: dockerregistry-data
-  dockerregistry-certs:
-    name: dockerregistry-certs
-  dockerregistry-auth:
-    name: dockerregistry-auth
+#  gogs-data:
+#    name: gogs-data
+#  dockerregistry-data:
+#    name: dockerregistry-data
+#  dockerregistry-certs:
+#    name: dockerregistry-certs
+#  dockerregistry-auth:
+#    name: dockerregistry-auth
   sonarqube-conf:
     name: sonarqube-conf
   sonarqube-data:
@@ -71,9 +71,9 @@ volumes:
     name: sonarqube-bundled-plugins
   jenkins-data:
     name: jenkins-data
-  gitlab-data-etc: 
-    name: gitlab-data-etc
-  gitlab-data-log: 
-    name: gitlab-data-log
-  gitlab-data-opt: 
-    name: gitlab-data-opt
+#  gitlab-data-etc:
+#    name: gitlab-data-etc
+#  gitlab-data-log:
+#    name: gitlab-data-log
+#  gitlab-data-opt:
+#    name: gitlab-data-opt
