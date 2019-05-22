@@ -60,6 +60,20 @@ pipeline {
                         }
                     }
                 }
+
+                stage("Test") {
+                    steps {
+                        gitlabCommitStatus(name: STAGE_NAME) {
+                            try {
+                                sh "mvn test"
+
+                            } finally {
+                                junit 'target/sunfire-reports/**/*.xml'
+                            }
+                        }
+                    }
+                }
+
             }
         }
     }
