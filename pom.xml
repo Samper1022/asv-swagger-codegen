@@ -255,6 +255,13 @@
             <version>${commons-cli-version}</version>
         </dependency>
         <dependency>
+            <groupId>org.jmockit</groupId>
+            <artifactId>jmockit</artifactId>
+            <!--             <version>${jmockit-version}</version> -->
+            <scope>test</scope>
+        </dependency>
+        
+        <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
 <!--             <version>${testng-version}</version> -->
@@ -306,12 +313,7 @@
             <version>${reflections-version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.jmockit</groupId>
-            <artifactId>jmockit</artifactId>
-<!--             <version>${jmockit-version}</version> -->
-            <scope>test</scope>
-        </dependency>
+
         <dependency>
             <groupId>com.googlecode.java-diff-utils</groupId>
             <artifactId>diffutils</artifactId>

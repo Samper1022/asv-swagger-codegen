@@ -27,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.testng.Assert.assertEquals;
 
-public class asvTestCases {
+public class TestCase {
     private static final String POM_FILE = "pom.xml";
     private static final String MODEL_ORDER_FILE = "/src/main/java/io/swagger/client/model/Order.java";
     private static final String MODEL_USER_FILE = "/src/main/java/io/swagger/client/model/User.java";
