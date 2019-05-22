@@ -7,7 +7,7 @@ pipeline {
         gitLabConnection("gitlab")
         gitlabBuilds(builds: ['Build-Finished'])
         // Show timestamps in logging. To be able to spot bottlenecks in the build
-        timestamps()
+        //timestamps()
         // No concurrent builds of this branch
         disableConcurrentBuilds()
     }
