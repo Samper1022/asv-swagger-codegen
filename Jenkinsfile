@@ -64,13 +64,15 @@ pipeline {
                 }
 
             }
+
+            post {
+                always {
+                    archiveArtifacts artifacts: 'target/**.jar', fingerprint: true
+                    junit 'target/sunfire-reports/**/*.xml'
+                }
+            }
+
         }
     }
 
-    post {
-        always {
-            archiveArtifacts artifacts: 'target/**.jar', fingerprint: true
-            junit 'target/sunfire-reports/**/*.xml'
-        }
-    }
 }
