@@ -47,13 +47,7 @@ pipeline {
                             * Compile the software, run the tests and code coverage *
                             *********************************************************/
                             // Ignoring failed tests, because sonar will generate a view of the tests
-                            try {
-                                sh "mvn clean install"
-
-                            } finally {
-                                junit 'target/sunfire-reports/**/*.xml'
-                            }
-
+                            sh "mvn clean install"
 
                             // Stash the repo including files needed for the sonarqube Analysis
                             stash name: 'All', includes: '**'
