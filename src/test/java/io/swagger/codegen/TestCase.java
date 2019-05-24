@@ -79,10 +79,13 @@ public class TestCase {
 
     @Test
     public void testRequirementOne() throws IOException {
+        // Arrange
+        // Global parameter include
         final String PET_STORE_FILE_NAME = "/petstore.json";
         final File output = folder.getRoot();
-
         File copied = new File(PET_STORE_JSON_FILE);
+
+        // Act
         FileUtils.copyFileToDirectory(copied, output); //Copy file to temp folder
         File openApiDoc = new File(output, PET_STORE_FILE_NAME); //Get file from temp folder
         Swagger swagger = swaggerParser.read(String.valueOf(openApiDoc));
@@ -94,6 +97,7 @@ public class TestCase {
         ClientOptInput clientOptInput = new ClientOptInput().opts(new ClientOpts()).swagger(swagger).config(codegenConfig);
         gen.opts(clientOptInput).generate();
 
+        // Assert
         assertNotNull(openApiDoc);
         assertTrue(openApiDoc.exists());
         assertNotNull(pom);
@@ -103,8 +107,13 @@ public class TestCase {
 
     @Test
     public void testRequirementTwo() {
+        // Arrange
+        // Global parameter include
+
+        // Act
         final Swagger swagger = swaggerParser.read(PET_STORE_JSON_FILE);
 
+        // Assert
         assertEquals(swagger.getSwagger(), SWAGGER_VERSION);
         assertEquals(swagger.getInfo().getTitle(), SWAGGER_INFO_TITLE);
         assertEquals(swagger.getInfo().getVersion(), SWAGGER_INFO_VERSION);
@@ -114,9 +123,12 @@ public class TestCase {
 
     @Test
     public void testRequirementThree() {
+        // Arrange
+        // Global parameter include
         final String JAVA_EXTENSION = ".java";
         final File output = folder.getRoot();
 
+        // Act
         Swagger swagger = swaggerParser.read(PET_STORE_JSON_FILE);
         CodegenConfig codegenConfig = new JavaClientCodegen();
         codegenConfig.setOutputDir(output.getAbsolutePath());
@@ -130,6 +142,7 @@ public class TestCase {
         File user = new File(output, MODEL_USER_FILE);
         File pet = new File(output, MODEL_PET_FILE);
 
+        // Assert
         assertNotNull(order);
         assertNotNull(category);
         assertNotNull(tag);
@@ -145,8 +158,11 @@ public class TestCase {
 
     @Test
     public void testRequirementFour() {
+        // Arrange
+        // Global parameter include
         final File output = folder.getRoot();
 
+        // Act
         Swagger swagger = swaggerParser.read(STUDENT_YAML_FILE);
         CodegenConfig codegenConfig = new SwaggerGenerator();
         codegenConfig.setOutputDir(output.getAbsolutePath());
@@ -157,6 +173,7 @@ public class TestCase {
         File swaggerFile = new File(output, GENERATED_SWAGGER_FILE);
         Swagger swaggerGenerated = swaggerParser.read(String.valueOf(swaggerFile));
 
+        // Assert
         assertNotNull(swaggerFile);
         assertTrue(swaggerFile.exists());
         assertEquals(swagger.getSwagger(), swaggerGenerated.getSwagger());
@@ -168,8 +185,11 @@ public class TestCase {
 
     @Test
     public void testRequirementFive() {
+        // Arrange
+        // Global parameter include
         final File output = folder.getRoot();
 
+        // Act
         Swagger swagger = swaggerParser.read(PET_STORE_JSON_FILE);
         CodegenConfig codegenConfig = new JavaClientCodegen();
         codegenConfig.setOutputDir(output.getAbsolutePath());
@@ -183,6 +203,7 @@ public class TestCase {
         File user = new File(output, MODEL_USER_FILE);
         File pet = new File(output, MODEL_PET_FILE);
 
+        // Assert
         assertNotNull(order);
         assertNotNull(category);
         assertNotNull(tag);
@@ -198,9 +219,12 @@ public class TestCase {
 
     @Test
     public void testRequirementSix() {
+        // Arrange
+        // Global parameter include
         final String PHP_EXTENSION = ".php";
         final File output = folder.getRoot();
 
+        // Act
         Swagger swagger = swaggerParser.read(PET_STORE_JSON_FILE);
         CodegenConfig codegenConfig = new LumenServerCodegen();
         codegenConfig.setOutputDir(output.getAbsolutePath());
@@ -221,6 +245,7 @@ public class TestCase {
             e.printStackTrace();
         }
 
+        // Assert
         assertNotNull(phpFile);
         assertTrue(phpFile.exists());
         assertEquals(phpExtension, PHP_EXTENSION);
@@ -231,11 +256,14 @@ public class TestCase {
 
     @Test
     public void testRequirementSeven() {
+        // Arrange
+        // Global parameter include
         final String[] EXPECTED_MODELS = new String[]{"Student", "HttpResponse", "StudentUpdateCommand", "StudentSaveCommand"};
         final int EXPECTED_PATHS = 1;
         final int EXPECTED_LENGTH_OF_MODELS = 4;
         final File output = folder.getRoot();
 
+        // Act
         Swagger swagger = swaggerParser.read(STUDENT_YAML_FILE);
         CodegenConfig codegenConfig = new JavaClientCodegen();
         codegenConfig.setOutputDir(output.getAbsolutePath());
@@ -247,6 +275,7 @@ public class TestCase {
         Map<String, Model> modelsMap = generator.swagger.getDefinitions();
         Object[] models = modelsMap.keySet().toArray();
 
+        // Assert
         assertEquals(paths.size(), EXPECTED_PATHS);
         assertEquals(models.length, EXPECTED_LENGTH_OF_MODELS);
         for (int i = 0; i < models.length; i++) {
@@ -256,9 +285,12 @@ public class TestCase {
 
     @Test
     public void testRequirementEight() {
+        // Arrange
+        // Global parameter include
         final String HTML_EXTENSION = ".html";
         final File output = folder.getRoot();
 
+        // Act
         Swagger swagger = swaggerParser.read(PET_STORE_JSON_FILE);
         CodegenConfig codegenConfig = new StaticHtmlGenerator();
         codegenConfig.setOutputDir(output.getAbsolutePath());
@@ -269,6 +301,7 @@ public class TestCase {
         File htmlFile = new File(output, GENERATED_HTML_FILE);
         String htmlExtension = getFileExtension(htmlFile);
 
+        // Assert
         assertNotNull(htmlFile);
         assertTrue(htmlFile.exists());
         assertEquals(htmlExtension, HTML_EXTENSION);
