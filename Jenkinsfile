@@ -45,10 +45,16 @@ pipeline {
                         }
                     }
                 }
+                post {
+                    always {
+                        archiveArtifacts artifacts: 'target/**.jar', fingerprint: true
+                        junit 'target/surefire-reports/**.xml'
+                    }
+                }
+                
             }
         }
     }
-    
     // Update commitstatus to Gitlab to enable auto-merging of the build in case of success
     post {
         success {
@@ -56,10 +62,6 @@ pipeline {
         }
         failure {
             updateGitlabCommitStatus name: 'Build-Finished', state: 'failed'
-        }
-        always {
-            archiveArtifacts artifacts: 'target/**.jar', fingerprint: true
-            junit 'target/surefire-reports/**.xml'
         }
     }
 
