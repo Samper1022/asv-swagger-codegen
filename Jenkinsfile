@@ -12,13 +12,6 @@ pipeline {
         disableConcurrentBuilds()
     }
 
-    triggers {
-        // Make gitlab trigger builds on all code changes
-        gitlab(triggerOnPush: true, triggerOnMergeRequest: true, branchFilterType: "All")
-        // Also build daily to make sure the product still has a valid build
-        cron('@daily')
-    }
-
     stages {
         stage('Checkout') {
             steps {
@@ -57,23 +50,21 @@ pipeline {
                         }
                     }
                 }
-
             }
-
-            // Update commitstatus to Gitlab to enable auto-merging of the build in case of success
-            post {
-                success {
-                    updateGitlabCommitStatus name: 'Build-Finished', state: 'success'
-                }
-                failure {
-                    updateGitlabCommitStatus name: 'Build-Finished', state: 'failed'
-                }
-                always {
-                    archiveArtifacts artifacts: 'target/**.jar', fingerprint: true
-                    junit 'target/surefire-reports/**.xml'
-                }
-            }
-
+        }
+    }
+    
+    // Update commitstatus to Gitlab to enable auto-merging of the build in case of success
+    post {
+        success {
+            updateGitlabCommitStatus name: 'Build-Finished', state: 'success'
+        }
+        failure {
+            updateGitlabCommitStatus name: 'Build-Finished', state: 'failed'
+        }
+        always {
+            archiveArtifacts artifacts: 'target/**.jar', fingerprint: true
+            junit 'target/surefire-reports/**.xml'
         }
     }
 
