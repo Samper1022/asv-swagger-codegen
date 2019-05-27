@@ -12,13 +12,21 @@ pipeline {
         disableConcurrentBuilds()
     }
 
-   // Update commitstatus to Gitlab to enable auto-merging of the build in case of success
+    triggers {
+        // Make gitlab trigger builds on all code changes
+        gitlab(triggerOnPush: true, triggerOnMergeRequest: true, branchFilterType: "All")
+        // Also build daily to make sure the product still has a valid build
+        cron('@daily')
+    }
+    
+    // Update commitstatus to Gitlab to enable auto-merging of the build in case of success
     post {
         success {
             updateGitlabCommitStatus name: 'Build-Finished', state: 'success'
         }
         failure {
             updateGitlabCommitStatus name: 'Build-Finished', state: 'failed'
+        }
     }
 
     stages {
@@ -39,10 +47,10 @@ pipeline {
                             * Compile the software, run the tests and code coverage *
                             *********************************************************/
                             // Ignoring failed tests, because sonar will generate a view of the tests
-                            //sh "mvn clean install"
+                            sh "mvn clean install"
 
                             // Stash the repo including files needed for the sonarqube Analysis
-                            //stash name: 'All', includes: '**'
+                            stash name: 'All', includes: '**'
                         }
                     }
                 }
@@ -50,13 +58,12 @@ pipeline {
                 stage("Test") {
                     steps {
                         gitlabCommitStatus(name: STAGE_NAME) {
-                            //sh "mvn test"
+                            sh "mvn test"
                         }
                     }
                 }
 
             }
-
             post {
                 always {
                     archiveArtifacts artifacts: 'target/**.jar', fingerprint: true
