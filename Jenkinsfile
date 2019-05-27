@@ -13,11 +13,6 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
         stage("Run with JDK 8 and maven") {
             // Run all maven commands in a separate Docker container supplying maven
             agent {
