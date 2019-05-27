@@ -7,7 +7,7 @@ pipeline {
         gitLabConnection("gitlab")
         gitlabBuilds(builds: ['Build-Finished'])
         // Show timestamps in logging. To be able to spot bottlenecks in the build
-        //timestamps()
+        timestamps()
         // No concurrent builds of this branch
         disableConcurrentBuilds()
     }
@@ -19,17 +19,12 @@ pipeline {
         cron('@daily')
     }
 
-    // Update commitstatus to Gitlab to enable auto-merging of the build in case of success
-    post {
-        success {
-            updateGitlabCommitStatus name: 'Build-Finished', state: 'success'
-        }
-        failure {
-            updateGitlabCommitStatus name: 'Build-Finished', state: 'failed'
-        }
-    }
-
     stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
         stage("Run with JDK 8 and maven") {
             // Run all maven commands in a separate Docker container supplying maven
             agent {
@@ -65,7 +60,14 @@ pipeline {
 
             }
 
+            // Update commitstatus to Gitlab to enable auto-merging of the build in case of success
             post {
+                success {
+                    updateGitlabCommitStatus name: 'Build-Finished', state: 'success'
+                }
+                failure {
+                    updateGitlabCommitStatus name: 'Build-Finished', state: 'failed'
+                }
                 always {
                     archiveArtifacts artifacts: 'target/**.jar', fingerprint: true
                     junit 'target/surefire-reports/**.xml'
