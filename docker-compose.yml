@@ -1,0 +1,37 @@
+version: '3.7'
+
+services:
+  jenkins:
+    container_name: asv-jenkins
+    restart: always
+    image: jenkinsci/blueocean
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins-data:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock # Use Docker from the host instead of running Docker in Docker
+
+  sonarqube:
+    container_name: asv-sonarqube
+    restart: always
+    image: sonarqube:7.7-community
+    ports:
+      - "9000:9000"
+    volumes:
+      - sonarqube-conf:/opt/sonarqube/conf
+      - sonarqube-data:/opt/sonarqube/data
+      - sonarqube-extensions:/opt/sonarqube/extensions
+      - sonarqube-bundled-plugins:/opt/sonarqube/lib/bundled-plugins
+
+volumes:
+  sonarqube-conf:
+    name: sonarqube-conf
+  sonarqube-data:
+    name: sonarqube-data
+  sonarqube-extensions:
+    name: sonarqube-extensions
+  sonarqube-bundled-plugins:
+    name: sonarqube-bundled-plugins
+  jenkins-data:
+    name: jenkins-data
