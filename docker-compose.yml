@@ -12,6 +12,7 @@ services:
       - jenkins-data:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock # Use Docker from the host instead of running Docker in Docker
 
+
   sonarqube:
     container_name: asv-sonarqube
     restart: always
@@ -24,11 +25,12 @@ services:
       - sonarqube-extensions:/opt/sonarqube/extensions
       - sonarqube-bundled-plugins:/opt/sonarqube/lib/bundled-plugins
 
+
 volumes:
   sonarqube-conf:
     name: sonarqube-conf
   sonarqube-data:
-    name: sonarqube-data
+    name: sonarqube-data    
   sonarqube-extensions:
     name: sonarqube-extensions
   sonarqube-bundled-plugins:
