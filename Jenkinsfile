@@ -79,6 +79,15 @@ pipeline {
             }
         }
         stage("Verify") {
+            agent {
+                docker {
+                    //docker image with maven and jdk 12 installed to complete these stages
+                    image 'maven:3.6.0-jdk-8'
+                    args '-v maven-repo:/root/.m2 -v sonar-repo:/root/.sonar' // This is important for demo purposes
+                    reuseNode true
+                    // It's possible to add extra volumes to the host here. The volumes to /root/.m2 and /root/.sonar are already present in Endeavour Jenkins buildservers
+                }
+            }
             steps {
                 withSonarQubeEnv("sonarcloud") {
                     sh "mvn sonar:sonar"
