@@ -4,7 +4,7 @@ pipeline {
 
     options {
         // Use the GitLab connection named 'gitlab-connection', available in Endeavour Jenkins buildservers
-        gitLabConnection("gitlab")
+        // gitLabConnection("gitlab")
         gitlabBuilds(builds: ['Build-Finished'])
         // Show timestamps in logging. To be able to spot bottlenecks in the build
         timestamps()
@@ -14,7 +14,7 @@ pipeline {
 
     triggers {
         // Make gitlab trigger builds on all code changes
-        gitlab(triggerOnPush: true, triggerOnMergeRequest: true, branchFilterType: "All")
+        // gitlab(triggerOnPush: true, triggerOnMergeRequest: true, branchFilterType: "All")
         // Also build daily to make sure the product still has a valid build
         cron('@daily')
     }
@@ -36,7 +36,7 @@ pipeline {
                 docker {
                     //docker image with maven and jdk 8 installed to complete these stages
                     image 'maven:3.6.0-jdk-8'
-                    args '--network="asv-swagger-codegen_default" -v maven-repo:/root/.m2 -v sonar-repo:/root/.sonar'
+                    args '-v maven-repo:/root/.m2 -v sonar-repo:/root/.sonar'
                     reuseNode true
                     // It's possible to add extra volumes to the host here. The volumes to /root/.m2 and /root/.sonar are already present in Endeavour Jenkins buildservers
                 }
@@ -64,23 +64,7 @@ pipeline {
                         }
                     }
                 }
-                stage("Verify") {
-                    steps {
-                        gitlabCommitStatus(name: STAGE_NAME) {
-                            unstash 'All'
-                            /**************************************************************************
-                            * Run SonarQube analysis and make the build fail on failing quality gate *
-                            **************************************************************************/
-                            withSonarQubeEnv("sonarqube") {
-                                sh "mvn sonar:sonar"
-                            }
-                            sleep(10) // Another hack because of webhook issues
-                            timeout(time: 30, unit: "MINUTES") {
-                                waitForQualityGate abortPipeline: true
-                            }
-                        }
-                    }
-                }
+
             }
             post {
                 always {
@@ -89,9 +73,14 @@ pipeline {
                 }
             }
         }
-        
-
-        
+        stage("Verify") {
+            steps {
+                mvn sonar:sonar \
+                  -Dsonar.projectKey=Samper1022_asv-swagger-codegen \
+                  -Dsonar.organization=samper1022-github \
+                  -Dsonar.host.url=https://sonarcloud.io \
+                  -Dsonar.login=9ca4900536c0a073ded1f8234a2174fd14405266
+            }
+        }
     }
-
 }
