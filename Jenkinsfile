@@ -4,7 +4,7 @@ pipeline {
 
     options {
         // Use the GitLab connection named 'gitlab-connection', available in Endeavour Jenkins buildservers
-        // gitLabConnection("gitlab")
+        gitLabConnection("gitlab")
         gitlabBuilds(builds: ['Build-Finished'])
         // Show timestamps in logging. To be able to spot bottlenecks in the build
         timestamps()
@@ -14,11 +14,11 @@ pipeline {
 
     triggers {
         // Make gitlab trigger builds on all code changes
-        // gitlab(triggerOnPush: true, triggerOnMergeRequest: true, branchFilterType: "All")
+        gitlab(triggerOnPush: true, triggerOnMergeRequest: true, branchFilterType: "All")
         // Also build daily to make sure the product still has a valid build
         cron('@daily')
     }
-    
+
     // Update commitstatus to Gitlab to enable auto-merging of the build in case of success
     post {
         success {
@@ -30,6 +30,11 @@ pipeline {
     }
 
     stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
         stage("Run with JDK 8 and maven") {
             // Run all maven commands in a separate Docker container supplying maven
             agent {
@@ -75,11 +80,13 @@ pipeline {
         }
         stage("Verify") {
             steps {
-                mvn sonar:sonar \
-                  -Dsonar.projectKey=Samper1022_asv-swagger-codegen \
-                  -Dsonar.organization=samper1022-github \
-                  -Dsonar.host.url=https://sonarcloud.io \
-                  -Dsonar.login=9ca4900536c0a073ded1f8234a2174fd14405266
+                withSonarQubeEnv("sonarcloud") {
+                    sh "mvn sonar:sonar"
+                }
+                sleep(10) // Another hack because of webhook issues
+                timeout(time: 30, unit: "MINUTES") {
+                    waitForQualityGate abortPipeline: true
+                }
             }
         }
     }
