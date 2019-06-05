@@ -41,7 +41,7 @@ pipeline {
                 docker {
                     //docker image with maven and jdk 8 installed to complete these stages
                     image 'maven:3.6.0-jdk-8'
-                    args '-v maven-repo:/root/.m2 -v sonar-repo:/root/.sonar'
+                    args '-v maven-repo:/root/.m2'
                     reuseNode true
                     // It's possible to add extra volumes to the host here. The volumes to /root/.m2 and /root/.sonar are already present in Endeavour Jenkins buildservers
                 }
@@ -89,9 +89,9 @@ pipeline {
                 }
             }
             steps {
-                withSonarQubeEnv("sonarcloud") {
-                    sh "mvn sonar:sonar"
-                }
+                sh "mvn sonar:sonar -Dsonar.projectKey=Samper1022_asv-swagger-codegen -Dsonar.organization=samper1022-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=9ca4900536c0a073ded1f8234a2174fd14405266"
+                // withSonarQubeEnv("sonarcloud") {
+                // }
                 sleep(10) // Another hack because of webhook issues
                 timeout(time: 30, unit: "MINUTES") {
                     waitForQualityGate abortPipeline: true
