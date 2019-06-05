@@ -36,7 +36,7 @@ pipeline {
                 docker {
                     //docker image with maven and jdk 8 installed to complete these stages
                     image 'maven:3.6.0-jdk-8'
-                    args '-v maven-repo:/root/.m2 -v sonar-repo:/root/.sonar'
+                    args '--network="asv-swagger-codegen_default" -v maven-repo:/root/.m2 -v sonar-repo:/root/.sonar'
                     reuseNode true
                     // It's possible to add extra volumes to the host here. The volumes to /root/.m2 and /root/.sonar are already present in Endeavour Jenkins buildservers
                 }
@@ -64,7 +64,23 @@ pipeline {
                         }
                     }
                 }
-
+                stage("Verify") {
+                    steps {
+                        gitlabCommitStatus(name: STAGE_NAME) {
+                            unstash 'All'
+                            /**************************************************************************
+                            * Run SonarQube analysis and make the build fail on failing quality gate *
+                            **************************************************************************/
+                            withSonarQubeEnv("sonarqube") {
+                                sh "mvn sonar:sonar"
+                            }
+                            sleep(10) // Another hack because of webhook issues
+                            timeout(time: 30, unit: "MINUTES") {
+                                waitForQualityGate abortPipeline: true
+                            }
+                        }
+                    }
+                }
             }
             post {
                 always {
@@ -73,32 +89,7 @@ pipeline {
                 }
             }
         }
-        stage("Verify") {
-            agent {
-                docker {
-                    //docker image with maven and jdk 12 installed to complete these stages
-                    image 'maven:3.6.0-jdk-8'
-                    args '--network="asv-swagger-codegen_default" -v maven-repo:/root/.m2 -v sonar-repo:/root/.sonar' // This is important for demo purposes
-                    reuseNode true
-                    // It's possible to add extra volumes to the host here. The volumes to /root/.m2 and /root/.sonar are already present in Endeavour Jenkins buildservers
-                }
-            }
-            steps {
-                gitlabCommitStatus(name: STAGE_NAME) {
-                    unstash 'All'
-                    /**************************************************************************
-                    * Run SonarQube analysis and make the build fail on failing quality gate *
-                    **************************************************************************/
-                    withSonarQubeEnv("sonarqube") {
-                        sh "mvn sonar:sonar"
-                    }
-                    sleep(10) // Another hack because of webhook issues
-                    timeout(time: 30, unit: "MINUTES") {
-                        waitForQualityGate abortPipeline: true
-                    }
-                }
-            }
-        }
+        
 
         
     }
