@@ -5,12 +5,13 @@ services:
     container_name: asv-jenkins
     restart: always
     image: jenkinsci/blueocean
+    user: root
     ports:
       - "8080:8080"
       - "50000:50000"
     volumes:
       - jenkins-data:/var/jenkins_home
-      - /var/run/docker.sock:/var/run/docker.sock # Use Docker from the host instead of running Docker in Docker
+      - /var/run/docker.sock:/var/run/docker.sock
 
   sonarqube:
     container_name: asv-sonarqube
