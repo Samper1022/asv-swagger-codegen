@@ -89,9 +89,9 @@ pipeline {
                 }
             }
             steps {
-                sh "mvn sonar:sonar -Dsonar.projectKey=Samper1022_asv-swagger-codegen -Dsonar.organization=samper1022-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=9ca4900536c0a073ded1f8234a2174fd14405266"
-                // withSonarQubeEnv("sonarcloud") {
-                // }
+                withSonarQubeEnv("sonarcloud") {
+                  sh "mvn sonar:sonar -Dsonar.projectKey=Samper1022_asv-swagger-codegen -Dsonar.organization=samper1022-github"
+                }
                 sleep(10) // Another hack because of webhook issues
                 timeout(time: 30, unit: "MINUTES") {
                     waitForQualityGate abortPipeline: true
