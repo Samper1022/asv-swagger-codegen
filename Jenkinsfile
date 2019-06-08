@@ -90,7 +90,7 @@ pipeline {
             }
             steps {
                 withSonarQubeEnv("sonarcloud") {
-                  sh "mvn sonar:sonar"
+                  sh "mvn sonar:sonar -Dsonar.projectKey=paraskumarHVA_asv-swagger-codegen -Dsonar.organization=paraskumarhva-github"
                 }
                 sleep(10) // Another hack because of webhook issues
                 timeout(time: 30, unit: "MINUTES") {
