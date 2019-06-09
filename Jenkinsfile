@@ -58,7 +58,7 @@ pipeline {
         stage("Deploy") {
             steps{
                 sh "chmod +x run-in-docker.sh"
-                sh "./ run-in-docker.sh"
+                sh "./ run-in-docker.sh mvn package"
             }
         }
     }
