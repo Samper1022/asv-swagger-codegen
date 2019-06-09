@@ -39,11 +39,11 @@ pipeline {
                 withSonarQubeEnv("sonarcloud") {
                   sh "mvn sonar:sonar -Dsonar.projectKey=Samper1022_asv-swagger-codegen -Dsonar.organization=samper1022-github"
                 }
-                sleep(10)
-                timeout(time: 1, unit: 'HOURS') {
+                //sleep(10)
+                //timeout(time: 1, unit: 'HOURS') {
                 // timeout(time: 30, unit: "MINUTES") {
-                    waitForQualityGate abortPipeline: true
-                }
+                    //waitForQualityGate abortPipeline: true
+                //}
             }
         }
     }
