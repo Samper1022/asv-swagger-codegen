@@ -39,10 +39,11 @@ pipeline {
                 withSonarQubeEnv("sonarcloud") {
                   sh "mvn sonar:sonar -Dsonar.projectKey=paraskumarHVA_asv-swagger-codegen -Dsonar.organization=paraskumarhva-github"
                 }
-                sleep(10)
-                timeout(time: 30, unit: "MINUTES") {
-                    waitForQualityGate abortPipeline: true
-                }
+                //sleep(10)
+                //timeout(time: 1, unit: 'HOURS') {
+                // timeout(time: 30, unit: "MINUTES") {
+                    //waitForQualityGate abortPipeline: true
+                //}
             }
         }
     }
