@@ -44,6 +44,17 @@ pipeline {
                 //}
             }
         }
+        stage("Quality Gate") {
+            steps {
+                sleep(10)
+                timeout(time: 30, unit: 'MINUTES') {
+                    // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
+                    // true = set pipeline to UNSTABLE, false = don't
+                    // Requires SonarQube Scanner for Jenkins 2.7+
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
         stage("Deploy") {
             steps{
                 sh "chmod +x run-in-docker.sh"
