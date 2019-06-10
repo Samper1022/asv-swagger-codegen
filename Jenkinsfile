@@ -5,17 +5,17 @@ pipeline {
         timestamps()
     }
 
-    // post {
+    post {
         // success {
         //     updateGitlabCommitStatus name: 'Build-Finished', state: 'success'
         // }
         // failure {
         //     updateGitlabCommitStatus name: 'Build-Finished', state: 'failed'
         // }
-        // always {
-        //    junit 'modules/**/target/surefire-reports/**.xml'
-        // }
-    // }
+        always {
+            junit 'modules/**/target/surefire-reports/**.xml'
+        }
+    }
 
     stages {
         stage("Run with JDK 8 and maven") {
@@ -43,21 +43,21 @@ pipeline {
                           sh "mvn sonar:sonar -Dsonar.projectKey=Samper1022_asv-swagger-codegen -Dsonar.organization=samper1022-github"
                         }
                         // timeout(time: 30, unit: "MINUTES") {
-                            //waitForQualityGate abortPipeline: true
-                        //}
+                        //     waitForQualityGate abortPipeline: true
+                        // }
                     }
                 }
-                stage("Deploy") {
-                    steps{
-                        script {
-                            def dockerImage = docker.build("asv-swagger-codegen:${env.BUILD_ID}")
-                            dockerImage.push("${env.BUILD_NUMBER}")
-                            dockerImage.push("latest")
-                        }
-                    }
+
+            }
+        }
+        stage("Deploy") {
+            steps{
+                script {
+                    def dockerImage = docker.build("asv-swagger-codegen:${env.BUILD_ID}")
+                    dockerImage.push("${env.BUILD_NUMBER}")
+                    dockerImage.push("latest")
                 }
             }
         }
     }
 }
-
