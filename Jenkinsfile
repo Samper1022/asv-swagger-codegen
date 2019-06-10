@@ -57,9 +57,18 @@ pipeline {
         }
         stage("Deploy") {
             steps{
-                sh "chmod +x run-in-docker.sh"
-                sh "./ run-in-docker.sh mvn package"
+                script {
+                    dockerImage = docker.build("asv-swagger-codegen:${env.BUILD_ID}")
+                }
+                // def customImage = docker.build("my-image:${env.BUILD_ID}")
+                //sh "docker build --rm -t asv-swagger-codegen:${VERSION} ."
             }
         }
+        //stage('Push image') {
+            //docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                //dockerImage.push("${env.BUILD_NUMBER}")
+                //dockerImage.push("latest")
+            //}
+        //}
     }
 }
