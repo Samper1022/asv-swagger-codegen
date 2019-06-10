@@ -1,7 +1,6 @@
 pipeline {
     agent {
         docker {
-            label 'docker'
             image 'maven:3.6.0-jdk-8'
             args '-v maven-repo:/root/.m2 -v sonar-repo:/root/.sonar'
             reuseNode true
