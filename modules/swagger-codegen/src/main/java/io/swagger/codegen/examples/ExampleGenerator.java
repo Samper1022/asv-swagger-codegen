@@ -179,7 +179,7 @@ public class ExampleGenerator {
         }  else if (property instanceof DecimalProperty) {
             Double min = ((DecimalProperty) property).getMinimum() == null ? null : ((DecimalProperty) property).getMinimum().doubleValue();
             Double max = ((DecimalProperty) property).getMaximum() == null ? null : ((DecimalProperty) property).getMaximum().doubleValue();
-            return new BigDecimal(randomNumber(min, max));
+            return BigDecimal.valueOf(randomNumber(min, max));
         } else if (property instanceof FileProperty) {
             return "";  // TODO
         } else if (property instanceof LongProperty) {
