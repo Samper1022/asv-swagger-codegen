@@ -40,7 +40,7 @@ pipeline {
                 stage("Verify") {
                     steps {
                         withSonarQubeEnv("sonarcloud") {
-                          sh "mvn sonar:sonar -Dsonar.projectKey=Samper1022_asv-swagger-codegen -Dsonar.organization=samper1022-github"
+                          sh "mvn sonar:sonar -Dsonar.projectKey=paraskumarHVA_asv-swagger-codegen -Dsonar.organization=paraskumarHVA-github"
                         }
                         // timeout(time: 30, unit: "MINUTES") {
                         //     waitForQualityGate abortPipeline: true
