@@ -382,7 +382,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                 if (methodResponse.getSchema() != null) {
                     CodegenProperty cm = fromProperty("response", methodResponse.getSchema());
                     op.vendorExtensions.put("x-codegen-response", cm);
-                    if(cm.datatype == "HttpContent") {
+                    if(cm.datatype.equals("HttpContent")) {
                         op.vendorExtensions.put("x-codegen-response-ishttpcontent", true);
                     }
                 }
@@ -441,7 +441,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                     if (last < 0) {
                         break;
                     }
-                    if (path.substring(pos, last - 1) == p.baseName) {
+                    if (path.substring(pos, last - 1).equals(p.baseName)) {
                         break;
                     }
                     pos = last + 1;
