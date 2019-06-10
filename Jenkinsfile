@@ -54,9 +54,9 @@ pipeline {
             steps{
                 script {
                     def dockerImage = docker.build("asv-swagger-codegen:${env.BUILD_ID}")
-                    dockerImage.push()
-                    dockerImage.push("${env.BUILD_NUMBER}")
-                    dockerImage.push("latest")
+                    // dockerImage.push()
+                    // dockerImage.push("${env.BUILD_NUMBER}")
+                    // dockerImage.push("latest")
                 }
             }
         }
