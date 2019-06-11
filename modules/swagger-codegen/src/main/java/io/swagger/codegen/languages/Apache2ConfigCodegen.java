@@ -1,19 +1,14 @@
 package io.swagger.codegen.languages;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
 import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConfig;
-import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
-import io.swagger.codegen.SupportingFile;
 
 public class Apache2ConfigCodegen extends DefaultCodegen implements CodegenConfig {
   public static final String USER_INFO_PATH = "userInfoPath";
@@ -81,7 +76,7 @@ public class Apache2ConfigCodegen extends DefaultCodegen implements CodegenConfi
         op.path += item + "/";
       }
       op.vendorExtensions.put("x-codegen-userInfoPath", userInfoPath);
-      newOpList = postProcessOperation.postProcessOperation(newOpList, op);
+      newOpList = PostProcessOperation.postProcessOperation(newOpList, op);
     }
     operations.put("operation", newOpList);
     return objs;

@@ -5,7 +5,7 @@ import io.swagger.codegen.CodegenOperation;
 import java.util.ArrayList;
 import java.util.List;
 
-public class postProcessOperation {
+public class PostProcessOperation {
     public static List<CodegenOperation> postProcessOperation(List<CodegenOperation> newOpList, CodegenOperation op) {
         boolean foundInNewList = false;
         for (CodegenOperation op1 : newOpList) {
