@@ -160,6 +160,12 @@ public class CodegenModel {
         result = 31 * result + (xmlPrefix != null ? xmlPrefix.hashCode() : 0);
         result = 31 * result + (xmlNamespace != null ? xmlNamespace.hashCode() : 0);
         result = 31 * result + (xmlName != null ? xmlName.hashCode() : 0);
+        result = hashCodeFiles(result);
+        result = hashCodeNumbers(result);
+        return result;
+    }
+
+    private int hashCodeFiles(int result) {
         result = 31 * result + (classFilename != null ? classFilename.hashCode() : 0);
         result = 31 * result + (unescapedDescription != null ? unescapedDescription.hashCode() : 0);
         result = 31 * result + (discriminator != null ? discriminator.hashCode() : 0);
@@ -172,6 +178,10 @@ public class CodegenModel {
         result = 31 * result + (mandatory != null ? mandatory.hashCode() : 0);
         result = 31 * result + (allMandatory != null ? allMandatory.hashCode() : 0);
         result = 31 * result + (imports != null ? imports.hashCode() : 0);
+        return result;
+    }
+
+    private int hashCodeNumbers(int result) {
         result = 31 * result + (hasVars ? 13:31);
         result = 31 * result + (emptyVars ? 13:31);
         result = 31 * result + (hasMoreModels ? 13:31);
