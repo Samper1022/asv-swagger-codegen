@@ -999,5 +999,8 @@
         <jmockit-version>1.25</jmockit-version>
         <reflections-version>0.9.11</reflections-version>
         <snakeyaml-version>1.23</snakeyaml-version>
+
+        <sonar.junit.reportPaths>${project.build.directory}/surefire-reports</sonar.junit.reportPaths>
+        <sonar.jacoco.reportPaths>${project.build.directory}/coverage-reports/jacoco-ut.exec</sonar.jacoco.reportPaths>
     </properties>
 </project>
