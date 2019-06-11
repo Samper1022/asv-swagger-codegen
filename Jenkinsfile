@@ -51,6 +51,9 @@ pipeline {
             }
         }
         stage("Deploy") {
+            when {
+                branch 'master'
+            }
             steps{
                 script {
                     def dockerImage = docker.build("asv-swagger-codegen:${env.BUILD_ID}")
