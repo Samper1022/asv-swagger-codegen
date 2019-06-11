@@ -8,7 +8,7 @@ import java.util.List;
 
 import static org.testng.Assert.*;
 
-public class postProcessOperationTest {
+public class PostProcessOperationTest {
 
     @Test
     public void testPostProcessOperation() {
