@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenOperation;
@@ -243,7 +242,7 @@ public class RestbedCodegen extends AbstractCppCodegen {
               op.path += item + "/";
           }
           op.vendorExtensions.put("x-codegen-resourceName", resourceNameCamelCase);
-          newOpList = postProcessOperation.postProcessOperation(newOpList, op);
+          newOpList = PostProcessOperation.postProcessOperation(newOpList, op);
       }
       operations.put("operation", newOpList);
       return objs;
