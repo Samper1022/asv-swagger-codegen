@@ -2755,8 +2755,6 @@ public class DefaultCodegen {
             p.example = "2013-10-20";
         } else if (Boolean.TRUE.equals(p.isDateTime)) {
             p.example = "2013-10-20T19:20:30+01:00";
-        } else if (Boolean.TRUE.equals(p.isFile)) {
-            p.example = "/path/to/file.txt";
         }
 
         // set the parameter excample value
