@@ -29,11 +29,12 @@ public abstract class AbstractGenerator {
             File parent = new File(output.getParent());
             parent.mkdirs();
         }
-        Writer out = new BufferedWriter(new OutputStreamWriter(
-                new FileOutputStream(output), "UTF-8"));
+        try (Writer out = new BufferedWriter(new OutputStreamWriter(
+                new FileOutputStream(output), "UTF-8"))) {
 
-        out.write(contents);
-        out.close();
+            out.write(contents);
+            out.close();
+        }
         return output;
     }
 
