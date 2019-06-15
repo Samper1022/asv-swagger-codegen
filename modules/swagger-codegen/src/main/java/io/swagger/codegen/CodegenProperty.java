@@ -172,6 +172,10 @@ public class CodegenProperty implements Cloneable {
         if ((this.title == null) ? (other.title != null) : !this.title.equals(other.title)) {
             return false;
         }
+        return equalFormat(other);
+    }
+
+    public boolean equalFormat(CodegenProperty other) {
         if ((this.datatype == null) ? (other.datatype != null) : !this.datatype.equals(other.datatype)) {
             return false;
         }
