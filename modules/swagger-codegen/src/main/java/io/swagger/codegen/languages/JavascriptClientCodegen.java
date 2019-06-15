@@ -818,17 +818,21 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         if (model instanceof ArrayModel) {
             ArrayModel am = (ArrayModel) model;
             if (am.getItems() != null) {
-                codegenModel.vendorExtensions.put("x-isArray", true);
-                codegenModel.vendorExtensions.put("x-itemType", getSwaggerType(am.getItems()));
+                if (codegenModel != null) {
+                    codegenModel.vendorExtensions.put("x-isArray", true);
+                    codegenModel.vendorExtensions.put("x-itemType", getSwaggerType(am.getItems()));
+                }
             }
         } else if (model instanceof ModelImpl) {
             ModelImpl mm = (ModelImpl)model;
             if (mm.getAdditionalProperties() != null) {
-                codegenModel.vendorExtensions.put("x-isMap", true);
-                codegenModel.vendorExtensions.put("x-itemType", getSwaggerType(mm.getAdditionalProperties()));
+                if (codegenModel != null) {
+                    codegenModel.vendorExtensions.put("x-isMap", true);
+                    codegenModel.vendorExtensions.put("x-itemType", getSwaggerType(mm.getAdditionalProperties()));
+                }
             } else {
                 String type = mm.getType();
-                if (isPrimitiveType(type)){
+                if (isPrimitiveType(type) && codegenModel != null){
                     codegenModel.vendorExtensions.put("x-isPrimitive", true);
                 }
             }
