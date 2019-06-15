@@ -193,6 +193,10 @@ public class CodegenProperty implements Cloneable {
         if ((this.defaultValue == null) ? (other.defaultValue != null) : !this.defaultValue.equals(other.defaultValue)) {
             return false;
         }
+        return equalType(other);
+    }
+
+    public boolean equalType(CodegenProperty other) {
         if ((this.baseType == null) ? (other.baseType != null) : !this.baseType.equals(other.baseType)) {
             return false;
         }
@@ -238,6 +242,10 @@ public class CodegenProperty implements Cloneable {
         if (this.isContainer != other.isContainer) {
             return false;
         }
+        return equalDataType(other);
+    }
+
+    public boolean equalDataType(CodegenProperty other) {
         if (this.isNotContainer != other.isNotContainer) {
             return false;
         }
@@ -287,6 +295,10 @@ public class CodegenProperty implements Cloneable {
         if (this.isByteArray != other.isByteArray) {
             return false;
         }
+        return equalItems(other);
+    }
+
+    public boolean equalItems(CodegenProperty other) {
         if (this.isBoolean != other.isBoolean) {
             return false;
         }
@@ -329,6 +341,10 @@ public class CodegenProperty implements Cloneable {
         if (this.minItems != other.minItems && (this.minItems == null || !this.minItems.equals(other.minItems))) {
             return false;
         }
+        return equalXML(other);
+    }
+
+    public boolean equalXML(CodegenProperty other) {
         if (!Objects.equals(this.isXmlAttribute, other.isXmlAttribute)) {
             return false;
         }
