@@ -317,14 +317,14 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         for (CodegenOperation operation : operations) {
             for (CodegenParameter param : operation.allParams) {
                 // import "os" if the operation uses files
-                if (!addedOSImport && param.dataType == "*os.File") {
+                if (!addedOSImport && param.dataType.equals("*os.File")) {
                     imports.add(createMapping("import", "os"));
                     addedOSImport = true;
                 }
 
                 // import "time" if the operation has a required time parameter.
                 if (param.required) {
-                    if (!addedTimeImport && param.dataType == "time.Time") {
+                    if (!addedTimeImport && param.dataType.equals("time.Time")) {
                         imports.add(createMapping("import", "time"));
                         addedTimeImport = true;
                     }
@@ -337,7 +337,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                         addedOptionalImport = true;
                     }
                     // We need to specially map Time type to the optionals package
-                    if (param.dataType == "time.Time") {
+                    if (param.dataType.equals("time.Time")) {
                         param.vendorExtensions.put("x-optionalDataType", "Time");
                         continue;
                     }
@@ -386,11 +386,11 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             if (v instanceof CodegenModel) {
                 CodegenModel model = (CodegenModel) v;
                 for (CodegenProperty param : model.vars) {
-                    if (!addedTimeImport && param.baseType == "time.Time") {
+                    if (!addedTimeImport && param.baseType.equals("time.Time")) {
                         imports.add(createMapping("import", "time"));
                         addedTimeImport = true;
                     }
-                    if (!addedOSImport && param.baseType == "*os.File") {
+                    if (!addedOSImport && param.baseType.equals("*os.File")) {
                         imports.add(createMapping("import", "os"));
                         addedOSImport = true;
                     }
