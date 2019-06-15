@@ -275,13 +275,15 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
         }
         for (CodegenParameter p : op.allParams) {
-            if (p == lastRequired) {
-                p.vendorExtensions.put("x-codegen-hasMoreRequired", false);
-            } else if (p == lastOptional) {
-                p.vendorExtensions.put("x-codegen-hasMoreOptional", false);
-            } else {
-                p.vendorExtensions.put("x-codegen-hasMoreRequired", true);
-                p.vendorExtensions.put("x-codegen-hasMoreOptional", true);
+            if (p != null) {
+                if (p == lastRequired) {
+                    p.vendorExtensions.put("x-codegen-hasMoreRequired", false);
+                } else if (p == lastOptional) {
+                    p.vendorExtensions.put("x-codegen-hasMoreOptional", false);
+                } else {
+                    p.vendorExtensions.put("x-codegen-hasMoreRequired", true);
+                    p.vendorExtensions.put("x-codegen-hasMoreOptional", true);
+                }
             }
         }
         op.vendorExtensions.put("x-codegen-hasRequiredParams", lastRequired != null);
